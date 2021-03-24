@@ -35,7 +35,15 @@ const bookSchema = new Schema(
   }
 );
 
+// add auto increment id
 bookSchema.plugin(AutoIncrement, {inc_field: 'id'});
+
+// Pre hook for `findOneAndUpdate`
+// apply validation on update
+bookSchema.pre('updateOne', function(next) {
+  this.options.runValidators = true;
+  next();
+});
 
 
 const Book = model("Book", bookSchema);

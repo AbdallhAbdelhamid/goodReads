@@ -7,26 +7,33 @@ const ErrorObject = function (message,statusCode) {
 }
 
 
-const badRequestError =  (error) => {
-
-    return new ErrorObject(message,400);
+const badRequestError =  (message) => {
+    errMessage = message || "Bad Request"
+    return new ErrorObject(errMessage,400);
 }
 
 
 const unauthorizedError =  (message) => {
-
-    return new ErrorObject(message,401);
+    errMessage = message || "Unauthorized"
+    return new ErrorObject(errMessage,401);
 }
 
 
 const notFoundError =  (message) => {
-
-    return new ErrorObject(message,404);
+    errMessage = message || "Not Found"
+    return new ErrorObject(errMessage,404);
 }
 
 const notAcceptableError =  (message) => {
 
-    return new ErrorObject(message,406);
+    errMessage = message || "Data not sent according to format"
+    return new ErrorObject(errMessage,406);
+}
+
+const internalServerError =  (message) => {
+
+    errMessage = message || "Internal Server Error, Please try again later!"
+    return new ErrorObject(errMessage,500);
 }
 
 module.exports = {
@@ -34,5 +41,6 @@ module.exports = {
     badRequestError,
     unauthorizedError,
     notFoundError,
-    notAcceptableError
+    notAcceptableError,
+    internalServerError
 }
