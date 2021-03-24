@@ -9,7 +9,7 @@ bookRouter.get('/', bookController.allBooks );
 
 bookRouter.get('/:id', bookController.getBook );
 
-bookRouter.post('/:id',bookController.postBook );
+bookRouter.post('/',bookController.postBook );
 
 bookRouter.put('/:id', bookController.putBook);
 
