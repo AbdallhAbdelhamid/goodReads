@@ -16,9 +16,12 @@ checkRequired(["userName","password"]),
 userController.login
 );
 
-// get users favourite books
+// get users favorite books
 userRouter.get("/books",authenticateUser,userController.getBooks);
 
-userRouter.post("/books/:id",authenticateUser,userController.addBook)
+userRouter.post("/books/:id",authenticateUser,userController.addBook);
+
+userRouter.delete("/books/:id",authenticateUser,userController.removeBook);
+
 
 module.exports = userRouter

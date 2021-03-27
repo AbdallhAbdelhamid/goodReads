@@ -1,7 +1,7 @@
 const config = require("./config.json");
 const mongoose = require("mongoose");
 
-async function  run() {
+async function run() {
   mongoose
     .connect(config.dbSetting.uri, {
       useUnifiedTopology: true,
