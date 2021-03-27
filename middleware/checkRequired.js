@@ -8,7 +8,6 @@ module.exports = (params) => (req,res,next) => {
             agg[param]={ type:"required"}
             return agg;
         },{} ));
-
     }        
     else
         next();

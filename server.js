@@ -4,7 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
-// require routers
+// routers
 const bookRouter = require("./routers/bookRouter");
 const userRouter = require("./routers/userRouter");
 
@@ -25,18 +25,12 @@ app.use((err, req, res, next) => {
   res.send(err.message);
 });
 
+// ! Why does it listen before initalizing the db?
 // init db and start listening
 require("./dbInit")
   .run()
-  .then( 
+  .then(() => {
     app.listen(config.port, () =>
       console.log(`Listening on port ${config.port} ...`)
-    )
-  );
-
-
-
-//start listening
-//app.listen(config.port, () =>
-//  console.log(`Listening on port ${config.port} ...`)
-//);
+    );
+  });

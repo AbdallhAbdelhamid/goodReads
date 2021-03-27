@@ -42,10 +42,8 @@ const login = async (req, res, next) => {
 
     const token = await user.createToken();
 
-    //todo: save token in cookie
-
-    response.setHeader("Set-Cookie", `token=${token};httpOnly`);
-    response.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Set-Cookie", `token=${token};httpOnly`);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
 
     res.send(`Welcome back ${user.userName} !`);
   } catch (err) {
@@ -53,63 +51,47 @@ const login = async (req, res, next) => {
   }
 };
 
-const getBooks = async (req, res, next) => {
-  try {
-    let user = await req.user;
-    let { favorites } = await User.findById(user._id).populate("favorites");
-    res.send(favorites);
-  } catch (err) {
-    return next(ErrorData.internalServerError);
-  }
-};
 
-const addBook = async (req, res, next) => {
-  try {
-    const book = await Book.findOne({ id: req.params.id });
+const changePassword = async (req,res,next) => {
+
+  try{
     let user = req.user;
-    if (!book) return next(ErrorData.notFoundError("Book not found"));
 
-    if (user.favorites.includes(book._id))
-      return next(
-        ErrorData.badRequestError("Book already exists in ur collection")
-      );
-
-    user.favorites.push(book._id);
+    user.password = req.body.password;
 
     await user.save();
 
-    res.statusCode = 201; // created
-    res.send("book added!");
+    const token = await user.createToken();
+
+    res.setHeader("Set-Cookie", `token=${token};httpOnly`);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+
+    res.send("Password changed successfully");
   } catch (err) {
+    if(err instanceof mongoose.Error.ValidationError)
+      return next(ErrorData.notAcceptableError);
+
     return next(ErrorData.internalServerError);
   }
-};
 
-const removeBook = async (req, res, next) => {
+}
+
+
+const logout = async (req,res,next) => {
+
   try {
-    let book = await Book.findOne({ id: req.params.id });
-
-    if (!book)
-      return next(ErrorData.notFoundError("Book not found in library"));
-
-    if (!req.user.favorites.includes(book._id))
-      return next(ErrorData.notFoundError("Book not found in user favorites"));
-
-    // remove the book id
-    req.user.favorites.pull({ _id: book._id }) 
-
-    await req.user.save();
-
-    res.send(`Book with ${book.id} Was removed from your favorites`);
-  } catch (err) {
+    res.setHeader("Set-Cookie",`token='NONE';httpOnly;maxAge:0`);
+    res.send('Logged out');
+  } catch (err ){
     return next(ErrorData.internalServerError);
   }
-};
+}
+
+
 
 module.exports = {
   register,
   login,
-  getBooks,
-  addBook,
-  removeBook,
+  changePassword,
+  logout
 };

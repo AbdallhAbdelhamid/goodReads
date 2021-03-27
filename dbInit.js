@@ -14,23 +14,3 @@ async function run() {
 module.exports = {
      run 
     };
-
-function afterDb() {
-  console.log("Db Connected Successfully");
-  /*
-    const book = new Book({
-      title: "Learn to Survive",
-      description: "You really should learn",
-      rating: 5,
-      price: 130,
-      pagesCount: 250,
-      reviewCount: 150,
-      author: "Abdallh",
-    });  
-  */
-
-  //  book
-  //    .save()
-  //    .then(results => console.log(book))
-  //    .catch(err => console.log(err));
-}

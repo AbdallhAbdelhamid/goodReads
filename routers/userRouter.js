@@ -5,23 +5,32 @@ const userController = require("../controllers/userController");
 const authenticateUser = require("../middleware/authenticateUser");
 const checkRequired = require("../middleware/checkRequired");
 
+const userBooksRouter = require("./userBooksRouter");
 
-userRouter.post("/register", 
-checkRequired(["userName", "password"]),
-userController.register,
+//route: /user/register
+userRouter.post("/register",
+  checkRequired(["userName", "password"]),
+  userController.register
 );
 
+//route: /user/login
 userRouter.post("/login",
-checkRequired(["userName","password"]),
-userController.login
+  checkRequired(["userName", "password"]),
+  userController.login
 );
 
-// get users favorite books
-userRouter.get("/books",authenticateUser,userController.getBooks);
+//route: /user/changepassword
+userRouter.post("/changepassword",
+  authenticateUser,
+  checkRequired(["password"]),
+  userController.changePassword
+);
 
-userRouter.post("/books/:id",authenticateUser,userController.addBook);
+//route: /user/logout
+userRouter.get("/logout", authenticateUser, userController.logout);
 
-userRouter.delete("/books/:id",authenticateUser,userController.removeBook);
+// user books router
+userRouter.use("/books",userBooksRouter);
 
 
-module.exports = userRouter
+module.exports = userRouter;
