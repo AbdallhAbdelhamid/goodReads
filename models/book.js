@@ -3,6 +3,8 @@ const { Schema, model } = require("mongoose");
 
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
+
+
 const bookSchema = new Schema(
   {
     title: {
@@ -27,8 +29,8 @@ const bookSchema = new Schema(
   {
     toJSON: {
       transform: function (doc, ret, options) {
-        //delete ret._id;
-        delete __v;
+        delete ret._id;
+        delete ret.__v;
         return ret;
       },
     },

@@ -3,7 +3,9 @@ const config = require("./config.json");
 const express = require("express");
 const mongoose = require("mongoose");
 
+// require routers
 const bookRouter = require('./routers/bookRouter');
+const userRouter = require('./routers/userRouter');
 
 // init db
 require('./dbInit').run()
@@ -14,8 +16,9 @@ const app = express();
 // Middleware
 app.use(express.json());
 
-// Routers
+// Map routers
 app.use('/book',bookRouter);
+app.use('/user',userRouter);
 
 
 // Error handler
