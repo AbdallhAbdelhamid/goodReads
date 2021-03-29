@@ -2,6 +2,7 @@ const User = require("../models/User");
 const ErrorData = require("../ErrorData");
 const Book = require("../models/book");
 
+// TODO Convert all promises into ASYNC / AWAIT
 
 const getBooks = async (req, res, next) => {
   try {
