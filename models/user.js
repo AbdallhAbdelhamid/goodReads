@@ -36,7 +36,7 @@ const userSchema = new Schema(
   }
 );
 
-// pre hook methods
+// pre- hook methods
 const saltRounds = 8;
 
 // hash password before saving

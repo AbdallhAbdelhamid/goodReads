@@ -11,6 +11,20 @@ const allBooks = (req, res) => {
   Book.find().then((books) => res.send(books));
 };
 
+/// Testing only..
+
+const asyncRouterWrapper = ( asyncRouter ) => async (req,res,next) => {
+
+  try{
+    await asyncRouter(req,res,next);
+  } catch (err) {
+    next(err);
+  }
+
+} 
+
+
+
 // get book by id
 const getBook = (req, res, next) => {
   Book.findOne({ id: req.params.id })
@@ -23,6 +37,8 @@ const getBook = (req, res, next) => {
       next(err);
     });
 };
+
+
 
 // add new book
 const postBook = (req, res, next) => {
